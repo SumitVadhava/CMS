@@ -4,8 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { Menu, X, LogOut, Activity } from "lucide-react";
 
 const Navbar = ({ role }) => {
-    // Fixed: AuthContext provides 'user', not 'userData'
+    
     const { user, logout } = useAuth();
+    
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
 
