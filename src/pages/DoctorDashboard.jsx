@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import api from "../utils/axios";
 
 const DoctorDashboard = () => {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -32,9 +34,22 @@ const DoctorDashboard = () => {
     fetchAppointments(selectedDate);
   }, [selectedDate]);
 
+  const handleStatusUpdate = async (id, status) => {
+    try {
+      
+      await api.patch(`/appointments/${id}/status`, { status });
+      
+      fetchAppointments(selectedDate);
+    } 
+    catch (error) {
+      console.error("Error updating status:", error);
+      alert("Failed to update status.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <Navbar role="receptionist" />
+      <Navbar role="doctor" />
       
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-2xl font-bold text-green-700 mb-6">Today's Queue</h1>
@@ -96,14 +111,14 @@ const DoctorDashboard = () => {
                            
                             <button 
                                 className="px-3 py-1 bg-green-600 text-white text-xs font-medium rounded hover:bg-green-700 transition-colors"
-                                onClick={() => handleStatusUpdate(app.id, 'in-progress')}
+                                onClick={() => navigate(`/doctor/add-prescription/${app.appointmentId}`)}
                              >
                                 Add Medicine
                              </button>
                              
                              <button 
                                 className="px-3 py-1 bg-gray-200 text-gray-700 text-xs font-medium rounded hover:bg-gray-300 transition-colors"
-                                onClick={() => handleStatusUpdate(app.id, 'skipped')}
+                                onClick={() => navigate(`/doctor/add-report/${app.appointmentId}`)}
                              >
                                 Add Report
                             
