@@ -18,6 +18,8 @@ import PrescriptionDetails from "./pages/PrescriptionDetails";
 import TVDisplay from "./pages/TVDisplay";
 
 import DoctorDashboard from "./pages/DoctorDashboard";
+import AddPrescription from "./pages/AddPrescription";
+import AddReport from "./pages/AddReport";
 
 
 export default function AppRoutes() {
@@ -115,6 +117,20 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute roles={["doctor"]}>
               <DoctorDashboard />
+            </ProtectedRoute>
+          }      
+        />
+        <Route path="/doctor/add-prescription/:appointmentId?" 
+          element={
+            <ProtectedRoute roles={["doctor"]}>
+              <AddPrescription />
+            </ProtectedRoute>
+          }      
+        />
+        <Route path="/doctor/add-report/:appointmentId?" 
+          element={
+            <ProtectedRoute roles={["doctor"]}>
+              <AddReport />
             </ProtectedRoute>
           }      
         />
